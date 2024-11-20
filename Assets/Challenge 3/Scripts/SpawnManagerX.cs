@@ -29,6 +29,5 @@ public class SpawnManagerX : MonoBehaviour
         {
             Instantiate(objectPrefabs[index], spawnLocation, objectPrefabs[index].transform.rotation);
         }
-
     }
 }
