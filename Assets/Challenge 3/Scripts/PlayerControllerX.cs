@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerControllerX : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PlayerControllerX : MonoBehaviour
 
     public float floatForce;
     private float gravityModifier = 1.5f;
-    private Rigidbody playerRb;
+    public Rigidbody playerRb;
 
     public ParticleSystem explosionParticle;
     public ParticleSystem fireworksParticle;
@@ -26,17 +27,6 @@ public class PlayerControllerX : MonoBehaviour
 
         // Apply a small upward force at the start of the game
         playerRb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // While space is pressed and player is low enough, float up
-        if (Input.GetKey(KeyCode.Space) && !gameOver)
-        {
-            playerRb.AddForce(Vector3.up * floatForce);
-        }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -59,7 +49,10 @@ public class PlayerControllerX : MonoBehaviour
             Destroy(other.gameObject);
 
         }
-
     }
 
+    public void OnJump(InputValue value)
+    {
+        playerRb.AddForce(Vector3.up * floatForce, ForceMode.Impulse);
+    }
 }
