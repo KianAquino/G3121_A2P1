@@ -17,6 +17,9 @@ public class PlayerControllerX : MonoBehaviour
     private AudioSource playerAudio;
     public AudioClip moneySound;
     public AudioClip explodeSound;
+    public AudioClip bounceSound;
+
+    private bool isFlying = false;
 
 
     // Start is called before the first frame update
@@ -27,6 +30,12 @@ public class PlayerControllerX : MonoBehaviour
 
         // Apply a small upward force at the start of the game
         playerRb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+    }
+
+    private void Update()
+    {
+        if (isFlying)
+            Fly();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -47,12 +56,10 @@ public class PlayerControllerX : MonoBehaviour
             fireworksParticle.Play();
             playerAudio.PlayOneShot(moneySound, 1.0f);
             Destroy(other.gameObject);
-
         }
     }
 
-    public void OnJump(InputValue value)
-    {
-        playerRb.AddForce(Vector3.up * floatForce, ForceMode.Impulse);
-    }
+    public void Fly() => playerRb.linearVelocity = Vector3.up * floatForce;
+
+    public void OnFly(InputValue inputValue) => isFlying = inputValue.isPressed;
 }
